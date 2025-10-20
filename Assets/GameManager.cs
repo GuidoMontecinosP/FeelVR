@@ -18,8 +18,16 @@ public class GameManager : MonoBehaviour
     private QuizUI m_quizUI = null;
     private AudioSource m_audioSource = null;
 
+    // 🔹 Variables de puntaje
+    public static int m_score = 0;
+    public static int m_incorrects = 0;
+
     private void Start()
     {
+        // Puntaje
+        m_score = 0;
+        m_incorrects = 0;
+
         m_quizDB = GameObject.FindObjectOfType<QuizDB>();
         m_quizUI = GameObject.FindObjectOfType<QuizUI>();
         m_audioSource = GetComponent<AudioSource>();
@@ -46,6 +54,12 @@ public class GameManager : MonoBehaviour
         // Selección de audio y color según respuesta
         m_audioSource.clip = optionButton.Option.correct ? m_correctSound : m_incorrectSound;
         optionButton.SetColor(optionButton.Option.correct ? m_correctColor : m_incorrectColor);
+
+         // 🔹 Actualizar puntaje
+        if (optionButton.Option.correct)
+            m_score++;
+        else
+            m_incorrects++;
 
         m_audioSource.Play();
 
