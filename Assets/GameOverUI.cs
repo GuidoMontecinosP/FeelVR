@@ -29,12 +29,12 @@ public class GameOverUI : MonoBehaviour
         GameManager.m_incorrects = 0;
         GameManager.m_lives = 3;
 
-        SceneManager.LoadScene(gameplaySceneName);
+        SceneManager.LoadScene("3_A");
     }
 
     // Botón "Volver al menú"
     public void BackToMenu()
     {
-        SceneManager.LoadScene(mainMenuSceneName);
+        SceneManager.LoadScene("1_Menu_Inicio");
     }
 }
