@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb6fad4ccc0fe34b9ccc0b36256b905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Hola como estas? yo estoy feliz
+  text: "\xA1Qu\xE9 maravilloso es verte de nuevo!"
   audioClip: {fileID: 0}
   options:
   - text: Felicidad
@@ -55,3 +55,4 @@ MonoBehaviour:
     correct: 0
   - text: "Irion\xEDa"
     correct: 0
+  hint: "Volumen alto y voz c\xE1lida, ritmo acelerado"

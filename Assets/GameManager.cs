@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
+
+
+
+    [SerializeField] private GameObject m_quizPanel;
+    [SerializeField] private GameObject m_gameOverUI;
+
     [SerializeField] private AudioClip m_correctSound = null;
     [SerializeField] private AudioClip m_incorrectSound = null;
 
@@ -13,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color m_incorrectColor = Color.red;
 
     [SerializeField] private float m_waitTime = 1.5f;
+    [SerializeField] private string m_gameOverSceneName = "GameOverScene";
 
     private QuizDB m_quizDB = null;
     private QuizUI m_quizUI = null;
@@ -22,11 +29,15 @@ public class GameManager : MonoBehaviour
     public static int m_score = 0;
     public static int m_incorrects = 0;
 
+    // Vida del jugador
+    public static int m_lives = 3;
+
     private void Start()
     {
         // Puntaje
         m_score = 0;
         m_incorrects = 0;
+        m_lives = 3;
 
         m_quizDB = GameObject.FindObjectOfType<QuizDB>();
         m_quizUI = GameObject.FindObjectOfType<QuizUI>();
@@ -71,13 +82,24 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            GameOver();
+            m_lives--;
+            if (m_lives <= 0)
+            {
+                GameOver();
+            }
+            else
+            {
+                NextQuestion();
+            }
         }
     }
 
     private void GameOver()
     {
         Debug.Log("Game Over");
-        SceneManager.LoadScene(0); // Reinicia la escena
+        SceneManager.LoadScene("4_Game_Over");
+
+
     }
+
 }
