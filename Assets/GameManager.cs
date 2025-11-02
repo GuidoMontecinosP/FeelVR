@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
+    public static int m_totalQuestionsAnswered = 0;
+    [SerializeField] private int m_maxQuestions = 10; // puedes ajustar el número si quieres
 
 
     [SerializeField] private GameObject m_quizPanel;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
         m_score = 0;
         m_incorrects = 0;
         m_lives = 3;
+        m_totalQuestionsAnswered = 0;
 
         m_quizDB = GameObject.FindObjectOfType<QuizDB>();
         m_quizUI = GameObject.FindObjectOfType<QuizUI>();
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour
     {
         if (!m_canAnswer) return;
         m_canAnswer = false;
-        
+
         StartCoroutine(GiveAnswerRoutine(optionButton));
     }
 
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
         m_audioSource.clip = optionButton.Option.correct ? m_correctSound : m_incorrectSound;
         optionButton.SetColor(optionButton.Option.correct ? m_correctColor : m_incorrectColor);
 
-         // 🔹 Actualizar puntaje
+        // Actualizar puntaje según respuesta
         if (optionButton.Option.correct)
             m_score++;
         else
@@ -82,23 +85,33 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(m_waitTime);
 
-        if (optionButton.Option.correct)
-        {
-            NextQuestion();
-        }
-        else
+        // ---- NUEVO ORDEN: primero procesar la respuesta (incluye restar vida si es incorrecta)
+        if (!optionButton.Option.correct)
         {
             m_lives--;
-            if (m_lives <= 0)
-            {
-                GameOver();
-            }
-            else
-            {
-                NextQuestion();
-            }
         }
+
+        // Contar la pregunta respondida después de procesarla
+        m_totalQuestionsAnswered++;
+
+        // Si ya no quedan vidas → Game Over (prioritario sobre ganar por número de preguntas)
+        if (m_lives <= 0)
+        {
+            GameOver();
+            yield break;
+        }
+
+        // Si alcanzó el número máximo de preguntas → Ganó
+        if (m_totalQuestionsAnswered >= m_maxQuestions)
+        {
+            WinGame(); // o SceneManager.LoadScene(...), según cómo lo tengas implementado
+            yield break;
+        }
+
+        // Si queda vida y no llegó al máximo → siguiente pregunta (independiente si la respuesta fue correcta o no)
+        NextQuestion();
     }
+
 
     private void GameOver()
     {
@@ -106,6 +119,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("4_Game_Over");
 
 
+    }
+
+    private void WinGame()
+    {
+        Debug.Log("¡Ganaste!");
+        SceneManager.LoadScene("4_Game_Over");
     }
 
 }
