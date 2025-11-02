@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     // Vida del jugador
     public static int m_lives = 3;
 
+    private bool m_canAnswer = true;
+
     private void Start()
     {
         // Puntaje
@@ -48,12 +50,16 @@ public class GameManager : MonoBehaviour
 
     private void NextQuestion()
     {
+        m_canAnswer = true;
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
     }
 
     private void GiveAnswer(OptionButton optionButton)
     {
+        if (!m_canAnswer) return;
+        m_canAnswer = false;
+        
         StartCoroutine(GiveAnswerRoutine(optionButton));
     }
 
