@@ -1,3 +1,5 @@
+// Question.cs
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,4 +10,10 @@ public class Question : MonoBehaviour
     public List<Option> options;            // Lista de opciones
 
     public string hint;                    // Pista para la pregunta
+
+    public string emotion;  // happy, sad, angry, ironic
+
+    public GameObject faceEmotionPrefab; // Prefab que contiene los emojis (caras)
+
+
 }

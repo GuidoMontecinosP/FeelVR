@@ -1,15 +1,20 @@
+// GameManager.cs
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
 
+    public FaceEmotionController faceController; // Referencia al controlador de emociones faciales
+    private GameObject currentFace;
     public static int m_totalQuestionsAnswered = 0;
     [SerializeField] private int m_maxQuestions = 10; // puedes ajustar el número si quieres
-
+    [SerializeField] private Transform faceSpawnPoint; // punto donde aparecerá tu prefab
 
     [SerializeField] private GameObject m_quizPanel;
     [SerializeField] private GameObject m_gameOverUI;
@@ -53,9 +58,31 @@ public class GameManager : MonoBehaviour
 
     private void NextQuestion()
     {
-        m_canAnswer = true;
+
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
+
+
+
+        if (q.faceEmotionPrefab != null)
+        {
+            // Eliminar la instancia anterior si existe
+            if (currentFace != null)
+                Destroy(currentFace);
+
+            // Instanciar el prefab en el punto deseado
+            currentFace = Instantiate(q.faceEmotionPrefab, faceSpawnPoint.position, faceSpawnPoint.rotation);
+
+            // Obtener el controlador del prefab y asignar la emoción
+            FaceEmotionController controller = currentFace.GetComponent<FaceEmotionController>();
+            if (controller != null)
+            {
+                controller.SetEmotion(q.emotion);
+            }
+    }
+
+        m_canAnswer = true;
+        
     }
 
     private void GiveAnswer(OptionButton optionButton)

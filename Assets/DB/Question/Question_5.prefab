@@ -56,3 +56,5 @@ MonoBehaviour:
   - text: "Iron\xEDa"
     correct: 0
   hint: Vulnerabilidad evidente, tono suave
+  emotion: sad
+  faceEmotionPrefab: {fileID: 5980835911983173015, guid: 485814adbc03eee43baa746b04c31a7e, type: 3}
