@@ -79,7 +79,8 @@ public class TutorialManager : MonoBehaviour
 
     private void StartDialog(string[] lines)
     {
-        quizUI.gameObject.SetActive(false);
+        LockUIForDialog();
+        quizUI.gameObject.SetActive(true);
         dialog.StartDialog(lines, OnDialogFinished);
     }
 
@@ -103,6 +104,8 @@ public class TutorialManager : MonoBehaviour
 
     private void ShowQuestion(int index)
     {
+        UnlockUIForQuestion(); // muestra UI de preguntas
+
         quizUI.gameObject.SetActive(true);
 
         Question q = tutorialDB.GetQuestionAt(index);
@@ -124,53 +127,80 @@ public class TutorialManager : MonoBehaviour
 
     private void EndTutorial()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainGameScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("1_Menu_Inicio");
     }
 
 
     // TEXTOS DEL TUTORIAL
     private string[] introText = {
-        "¡Bienvenido! Este es un entrenamiento para aprender a identificar emociones en voces humanas.",
+        "¡Bienvenido!",
+        "Este es un entrenamiento para aprender a identificar emociones en voces humanas.",
         "Durante el juego escucharás audios y deberás reconocer qué emoción expresa el personaje."
     };
 
     private string[] uiExplanationText = {
         "Esta es la interfaz del juego.",
-        "Arriba verás el texto de la pregunta.",
-        "Al centro verás el emoji del personaje.",
+        "Al centro verás el texto de la pregunta.",
+        "Arriba verás el emoji del personaje.",
         "Debajo encontrarás las respuestas.",
-        "Selecciona la correcta para avanzar."
+        "Arriba a la izquierda está el puntaje y vidas.",
+        "Son Diez preguntas en total.",
+        "Si cometes tres errores, el juego terminará.",
+        "Usa el botón de pista si necesitas ayuda.",
+        "Ahora, comencemos con la primera emoción."
     };
 
     private string[] alegriaText = {
         "ALEGRÍA",
         "La alegría se reconoce por un tono elevado, brillante y con ritmo rápido.",
         "La voz suena ligera, cálida y energética.",
-        "Observa el emoji 🙂 y recuerda cómo suena una voz feliz."
+        "Observa el emoji :) y recuerda cómo suena una voz feliz.",
+        "A continuación, escucharás una pregunta de práctica.", 
+        "Selecciona la respuesta correcta para avanzar."
     };
 
     private string[] enojoText = {
         "ENOJO",
         "El enojo tiene un tono fuerte, áspero y palabras cortantes.",
         "El volumen suele ser alto y las frases cargadas de tensión.",
-        "Observa el emoji >:( que representa enojo."
+        "Observa el emoji >:( que representa enojo.",
+        "A continuación, escucharás una pregunta de práctica."
     };
 
     private string[] tristezaText = {
         "TRISTEZA",
         "La tristeza tiene un tono bajo, apagado y un ritmo lento.",
         "La voz suena débil y con pausas.",
-        "El emoji :( representa esta emoción."
+        "El emoji :( representa esta emoción.", 
+        "A continuación, escucharás una pregunta de práctica."
     };
 
     private string[] ironiaText = {
         "IRONÍA",
         "La ironía mezcla tono exagerado o plano con palabras que suenan opuestas al verdadero significado.",
-        "Observa el emoji ;) que se usa para señalar ironía."
+        "Observa el emoji ;) que se usa para señalar ironía.",  
+        "A continuación, escucharás una pregunta de práctica."
     };
 
     private string[] finalText = {
         "¡Excelente! Ya conoces todas las emociones.",
-        "Ahora estás listo para comenzar el juego real."
+        "Ahora estás listo para comenzar el juego real.",
+        "En el menu principal, selecciona uno de los dos modos de juego para comenzar.",
+        "El modo asistido te mostrara los emojis correspondientes a cada emoción.",
+        "El modo dificil no mostrará los emojis.",
+        "Buena suerte y diviértete identificando emociones."
+
     };
+
+    private void LockUIForDialog()
+    {
+        // Oculta todos los botones del quiz
+        quizUI.gameObject.SetActive(false);
+    }
+
+    private void UnlockUIForQuestion()
+    {
+        // Muestra nuevamente la UI de preguntas
+        quizUI.gameObject.SetActive(true);
+    }
 }

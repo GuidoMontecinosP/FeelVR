@@ -17,6 +17,9 @@ public class DialogSystem : MonoBehaviour
 
     public static bool IsActive { get; private set; }
 
+    public static bool IsDialogActive = false;
+
+
     private void Awake()
     {
         if (panel != null)
@@ -25,6 +28,8 @@ public class DialogSystem : MonoBehaviour
 
     public void StartDialog(string[] dialogLines, Action finishedCallback)
     {
+        IsDialogActive = true;
+
         lines = dialogLines;
         index = 0;
         onFinished = finishedCallback;
@@ -59,10 +64,13 @@ public class DialogSystem : MonoBehaviour
     private void EndDialog()
     {
         // NO apagamos panel completo aquí
-        dialogText.text = "";
         nextButton.gameObject.SetActive(false);
-
+        panel.SetActive(false);
+        dialogText.text = "";
         IsActive = false; // <-- marca diálogo inactivo
+        IsDialogActive = false;
+
+
 
         onFinished?.Invoke();
     }
