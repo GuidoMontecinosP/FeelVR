@@ -1,3 +1,4 @@
+// QuizDB.cs
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,4 +40,16 @@ public class QuizDB : MonoBehaviour
     {
         m_questionList = m_backup.ToList();
     }
+
+    public Question GetQuestionAt(int index)
+{
+    
+    if (index >= 0 && index < m_backup.Count)
+        return m_backup[index];
+
+    Debug.LogError($"GetQuestionAt: índice inválido {index}");
+    return null;
+}
+
+
 }

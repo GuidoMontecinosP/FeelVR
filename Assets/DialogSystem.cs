@@ -1,40 +1,69 @@
-using System.Collections;
+// DialogSystem.cs
+
 using UnityEngine;
-using TMPro; // Necesario para TextMeshPro
+using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class DialogSystem : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TextMeshProUGUI dialogText; // Texto del diálogo
-    public Button nextButton;          // Botón de siguiente
+    public GameObject panel;
+    public TextMeshProUGUI dialogText;
+    public Button nextButton;
 
-    [Header("Dialog Data")]
-    [TextArea(3, 10)]
-    public string[] dialogLines;       // Arreglo con las frases
-    private int currentLineIndex = 0;  // Índice de la línea actual
+    private string[] lines;
+    private int index;
+    private Action onFinished;
 
-    void Start()
+    public static bool IsActive { get; private set; }
+
+    private void Awake()
     {
-        // Mostrar la primera línea
-        dialogText.text = dialogLines[currentLineIndex];
+        if (panel != null)
+            panel.SetActive(false);   // panel oculto hasta primer diálogo
+    }
 
-        // Asignar evento al botón
+    public void StartDialog(string[] dialogLines, Action finishedCallback)
+    {
+        lines = dialogLines;
+        index = 0;
+        onFinished = finishedCallback;
+
+        IsActive = true; // <-- marca diálogo activo
+
+        // Asegurar UI visible
+        if (panel != null)
+            panel.SetActive(true);
+
+        dialogText.text = lines[0];
+
+        nextButton.gameObject.SetActive(true);
+        nextButton.onClick.RemoveAllListeners();
         nextButton.onClick.AddListener(NextDialog);
     }
 
     public void NextDialog()
     {
-        currentLineIndex++;
+        index++;
 
-        if (currentLineIndex < dialogLines.Length)
+        if (index < lines.Length)
         {
-            dialogText.text = dialogLines[currentLineIndex];
+            dialogText.text = lines[index];
         }
         else
         {
-            dialogText.text = "Fin del diálogo.";
-            nextButton.gameObject.SetActive(false); // Ocultar botón al terminar
+            EndDialog();
         }
+    }
+
+    private void EndDialog()
+    {
+        // NO apagamos panel completo aquí
+        dialogText.text = "";
+        nextButton.gameObject.SetActive(false);
+
+        IsActive = false; // <-- marca diálogo inactivo
+
+        onFinished?.Invoke();
     }
 }
