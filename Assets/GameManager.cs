@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public FaceEmotionController faceController; // Referencia al controlador de emociones faciales
     private GameObject currentFace;
     public static int m_totalQuestionsAnswered = 0;
+
+    [SerializeField] private bool hardMode = false;
+
     [SerializeField] private int m_maxQuestions = 10; // puedes ajustar el número si quieres
     [SerializeField] private Transform faceSpawnPoint; // punto donde aparecerá tu prefab
 
@@ -58,32 +61,39 @@ public class GameManager : MonoBehaviour
 
     private void NextQuestion()
     {
-
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
 
-
-
         if (q.faceEmotionPrefab != null)
         {
+
+            
+
             // Eliminar la instancia anterior si existe
             if (currentFace != null)
                 Destroy(currentFace);
 
-            // Instanciar el prefab en el punto deseado
+            // Instanciar el prefab
             currentFace = Instantiate(q.faceEmotionPrefab, faceSpawnPoint.position, faceSpawnPoint.rotation);
 
-            // Obtener el controlador del prefab y asignar la emoción
+            // Obtener el controlador y aplicar modo difícil
             FaceEmotionController controller = currentFace.GetComponent<FaceEmotionController>();
+
             if (controller != null)
             {
-                controller.SetEmotion(q.emotion);
+                controller.hardMode = hardMode;  // 👈 IMPORTANTE
+                controller.gameObject.SetActive(!hardMode); // 👈 Si es modo difícil: ocultar todo
+
+                if (!hardMode)
+                {
+                    controller.SetEmotion(q.emotion); // 👈 Solo mostrar emoji si NO es difícil
+                }
             }
-    }
+        }
 
         m_canAnswer = true;
-        
     }
+
 
     private void GiveAnswer(OptionButton optionButton)
     {

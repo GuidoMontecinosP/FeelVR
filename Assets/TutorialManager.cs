@@ -123,6 +123,9 @@ public class TutorialManager : MonoBehaviour
             quizUI.gameObject.SetActive(false);
             PlayStep();
         });
+
+        var handler = FindObjectOfType<TutorialQuestionHandler>();
+        handler.BindQuestion(q);
     }
 
     private void EndTutorial()
@@ -203,4 +206,21 @@ public class TutorialManager : MonoBehaviour
         // Muestra nuevamente la UI de preguntas
         quizUI.gameObject.SetActive(true);
     }
+
+    public void AdvanceStepFromQuestion()
+    {
+        tutorialStep++;
+        PlayStep();
+    }
+
+    public void RepeatCurrentQuestion()
+    {
+        dialog.StartDialog(new string[] { "Incorrecto. No te preocupes, prueba otra vez. El emoji y la pista pueden ayudarte." }, () =>
+        {
+            PlayStep(); // vuelve a cargar la misma pregunta
+        });
+    }
+
+
+
 }

@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 7696262008940473229}
   - component: {fileID: 3843453871415070022}
   m_Layer: 0
-  m_Name: FaceEmotions
+  m_Name: FaceEmotions_Hard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9127128ddec5047b8ac823cd21516b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardMode: 0
+  hardMode: 1
   happyFace: {fileID: 1728561036321121991}
   sadFace: {fileID: 228862225565691549}
   angryFace: {fileID: 2976115235459798839}
