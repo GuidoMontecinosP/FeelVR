@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         m_quizDB = GameObject.FindObjectOfType<QuizDB>();
         m_quizUI = GameObject.FindObjectOfType<QuizUI>();
         m_audioSource = GetComponent<AudioSource>();
+        m_audioSource.volume = 4.0f; // volumen máximo
 
         NextQuestion();
     }
@@ -63,6 +64,20 @@ public class GameManager : MonoBehaviour
     {
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
+        PlayQuestionAudio(q);
+
+
+        //  Reproducir audio de la pregunta
+        if (q.audioClip != null)
+        {
+            if (m_audioSource.isPlaying)
+                m_audioSource.Stop();
+
+            m_audioSource.clip = q.audioClip;
+            m_audioSource.volume = 1.0f; 
+            m_audioSource.Play();
+        }
+
 
         if (q.faceEmotionPrefab != null)
         {
@@ -82,17 +97,32 @@ public class GameManager : MonoBehaviour
             if (controller != null)
             {
                 controller.hardMode = hardMode;  // 👈 IMPORTANTE
-                controller.gameObject.SetActive(!hardMode); // 👈 Si es modo difícil: ocultar todo
+                controller.gameObject.SetActive(!hardMode); // Si es modo difícil: ocultar todo
 
                 if (!hardMode)
                 {
-                    controller.SetEmotion(q.emotion); // 👈 Solo mostrar emoji si NO es difícil
+                    controller.SetEmotion(q.emotion); // Solo mostrar emoji si NO es difícil
                 }
             }
         }
-
+        PlayQuestionAudio(q);
         m_canAnswer = true;
+        
     }
+
+        private void PlayQuestionAudio(Question q)
+    {
+        if (q.audioClip == null)
+            return;
+
+        // Subir volumen SOLO para las preguntas
+        m_audioSource.volume = 1.0f; // volumen máximo
+
+        m_audioSource.Stop();
+        m_audioSource.clip = q.audioClip;
+        m_audioSource.Play();
+    }
+
 
 
     private void GiveAnswer(OptionButton optionButton)
@@ -109,6 +139,8 @@ public class GameManager : MonoBehaviour
             m_audioSource.Stop();
 
         // Selección de audio y color según respuesta
+        m_audioSource.volume = 0.7f; // por ejemplo
+
         m_audioSource.clip = optionButton.Option.correct ? m_correctSound : m_incorrectSound;
         optionButton.SetColor(optionButton.Option.correct ? m_correctColor : m_incorrectColor);
 
@@ -122,7 +154,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(m_waitTime);
 
-        // ---- NUEVO ORDEN: primero procesar la respuesta (incluye restar vida si es incorrecta)
+        // primero procesar la respuesta (incluye restar vida si es incorrecta)
         if (!optionButton.Option.correct)
         {
             m_lives--;
