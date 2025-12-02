@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 [RequireComponent(typeof(AudioSource))]
@@ -64,6 +65,9 @@ public class GameManager : MonoBehaviour
     {
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
         PlayQuestionAudio(q);
 
 

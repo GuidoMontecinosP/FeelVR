@@ -10,10 +10,10 @@ public class ScoreUI : MonoBehaviour
     private void Update()
     {
         if (scoreText != null)
-            scoreText.text = "O: " + GameManager.m_score;
+            scoreText.text = "Correctas: " + GameManager.m_score;
 
         if (incorrectText != null)
-            incorrectText.text = "X: " + GameManager.m_incorrects;
+            incorrectText.text = "Incorrectas: " + GameManager.m_incorrects;
 
         if (livesText != null)
             livesText.text = "Vidas: " + GameManager.m_lives;
