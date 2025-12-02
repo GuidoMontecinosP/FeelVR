@@ -43,6 +43,7 @@ public class QuizUI : MonoBehaviour
             m_hintButton.onClick.RemoveAllListeners();
             m_hintButton.onClick.AddListener(() =>
             {
+                if (DialogSystem.IsActive) return; // <- no hacer nada si diálogo activo
                 if (hintRoutine != null)
                     StopCoroutine(hintRoutine);
                 if (m_audioSource != null && m_hintSound != null)

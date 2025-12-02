@@ -35,7 +35,10 @@ public class OptionButton : MonoBehaviour
 
         // Limpiar listeners anteriores
         m_button.onClick.RemoveAllListeners();
-        m_button.onClick.AddListener(() => callback(this));
+        m_button.onClick.AddListener(delegate {
+            if (DialogSystem.IsActive) return;   // <- evita procesar si hay diálogo
+            callback(this);
+});
     }
 
     public void SetColor(Color c)

@@ -1,15 +1,23 @@
+// GameManager.cs
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
 
+    public FaceEmotionController faceController; // Referencia al controlador de emociones faciales
+    private GameObject currentFace;
     public static int m_totalQuestionsAnswered = 0;
-    [SerializeField] private int m_maxQuestions = 10; // puedes ajustar el número si quieres
 
+    [SerializeField] private bool hardMode = false;
+
+    [SerializeField] private int m_maxQuestions = 10; // puedes ajustar el número si quieres
+    [SerializeField] private Transform faceSpawnPoint; // punto donde aparecerá tu prefab
 
     [SerializeField] private GameObject m_quizPanel;
     [SerializeField] private GameObject m_gameOverUI;
@@ -47,16 +55,75 @@ public class GameManager : MonoBehaviour
         m_quizDB = GameObject.FindObjectOfType<QuizDB>();
         m_quizUI = GameObject.FindObjectOfType<QuizUI>();
         m_audioSource = GetComponent<AudioSource>();
+        m_audioSource.volume = 4.0f; // volumen máximo
 
         NextQuestion();
     }
 
     private void NextQuestion()
     {
-        m_canAnswer = true;
         Question q = m_quizDB.GetRandom();
         m_quizUI.Construct(q, GiveAnswer);
+        PlayQuestionAudio(q);
+
+
+        //  Reproducir audio de la pregunta
+        if (q.audioClip != null)
+        {
+            if (m_audioSource.isPlaying)
+                m_audioSource.Stop();
+
+            m_audioSource.clip = q.audioClip;
+            m_audioSource.volume = 1.0f; 
+            m_audioSource.Play();
+        }
+
+
+        if (q.faceEmotionPrefab != null)
+        {
+
+            
+
+            // Eliminar la instancia anterior si existe
+            if (currentFace != null)
+                Destroy(currentFace);
+
+            // Instanciar el prefab
+            currentFace = Instantiate(q.faceEmotionPrefab, faceSpawnPoint.position, faceSpawnPoint.rotation);
+
+            // Obtener el controlador y aplicar modo difícil
+            FaceEmotionController controller = currentFace.GetComponent<FaceEmotionController>();
+
+            if (controller != null)
+            {
+                controller.hardMode = hardMode;  // 👈 IMPORTANTE
+                controller.gameObject.SetActive(!hardMode); // Si es modo difícil: ocultar todo
+
+                if (!hardMode)
+                {
+                    controller.SetEmotion(q.emotion); // Solo mostrar emoji si NO es difícil
+                }
+            }
+        }
+        PlayQuestionAudio(q);
+        m_canAnswer = true;
+        
     }
+
+        private void PlayQuestionAudio(Question q)
+    {
+        if (q.audioClip == null)
+            return;
+
+        // Subir volumen SOLO para las preguntas
+        m_audioSource.volume = 1.0f; // volumen máximo
+
+        m_audioSource.Stop();
+        m_audioSource.clip = q.audioClip;
+        m_audioSource.Play();
+    }
+
+
 
     private void GiveAnswer(OptionButton optionButton)
     {
@@ -72,6 +139,8 @@ public class GameManager : MonoBehaviour
             m_audioSource.Stop();
 
         // Selección de audio y color según respuesta
+        m_audioSource.volume = 0.7f; // por ejemplo
+
         m_audioSource.clip = optionButton.Option.correct ? m_correctSound : m_incorrectSound;
         optionButton.SetColor(optionButton.Option.correct ? m_correctColor : m_incorrectColor);
 
@@ -85,7 +154,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(m_waitTime);
 
-        // ---- NUEVO ORDEN: primero procesar la respuesta (incluye restar vida si es incorrecta)
+        // primero procesar la respuesta (incluye restar vida si es incorrecta)
         if (!optionButton.Option.correct)
         {
             m_lives--;
