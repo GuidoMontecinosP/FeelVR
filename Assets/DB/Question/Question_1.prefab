@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: "\xA1Qu\xE9 maravilloso es verte de nuevo!"
-  audioClip: {fileID: 8300000, guid: 650d21fbed1aaff44b95b88edcd0c984, type: 3}
+  audioClip: {fileID: 8300000, guid: 43d46312d76bb8a9694c47609ddccf92, type: 3}
   options:
   - text: Felicidad
     correct: 1

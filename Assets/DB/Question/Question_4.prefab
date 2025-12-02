@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: "Claro, porque t\xFA siempre tienes la raz\xF3n"
-  audioClip: {fileID: 8300000, guid: aa5e6ac5a3d0f3441821a767f20d9ff5, type: 3}
+  audioClip: {fileID: 8300000, guid: 4c619398cdbc1095a954b78adca622ab, type: 3}
   options:
   - text: Felicidad
     correct: 0

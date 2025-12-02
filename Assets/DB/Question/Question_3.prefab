@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: "\xA1No tienes derecho a tratarme as\xED!"
-  audioClip: {fileID: 8300000, guid: b2baeb029831cd744a51af92cb1e4e2f, type: 3}
+  audioClip: {fileID: 8300000, guid: 473dd08902509d377a7764da2a18ce75, type: 3}
   options:
   - text: Felicidad
     correct: 0

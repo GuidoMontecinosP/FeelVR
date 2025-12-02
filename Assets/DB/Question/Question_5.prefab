@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Me siento tan solo
-  audioClip: {fileID: 8300000, guid: 16fbc5a6fd742064a828c1836458627e, type: 3}
+  audioClip: {fileID: 8300000, guid: 13782a728a3e6a2d3a7c7f4c23bdf8df, type: 3}
   options:
   - text: Felicidad
     correct: 0
