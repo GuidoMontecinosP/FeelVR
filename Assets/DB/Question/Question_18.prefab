@@ -44,17 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb6fad4ccc0fe34b9ccc0b36256b905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Me siento en las nubes
-  audioClip: {fileID: 8300000, guid: 6bf81b552c30db6afb9e25714b896778, type: 3}
+  text: No puedo dejar de llorar
+  audioClip: {fileID: 8300000, guid: db0572ec271597b21a54dc151a25812d, type: 3}
   options:
   - text: Felicidad
-    correct: 1
-  - text: Tristeza
     correct: 0
+  - text: Tristeza
+    correct: 1
   - text: Enojo
     correct: 0
-  - text: "Irion\xEDa"
+  - text: "Iron\xEDa"
     correct: 0
-  hint: "Tono so\xF1ador pero energ\xE9tico"
-  emotion: Happy
+  hint: "Voz quebrada, respiraci\xF3n irregular"
+  emotion: Sad
   faceEmotionPrefab: {fileID: 5980835911983173015, guid: 485814adbc03eee43baa746b04c31a7e, type: 3}
