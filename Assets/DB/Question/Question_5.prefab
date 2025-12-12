@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Me siento tan solo
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 13782a728a3e6a2d3a7c7f4c23bdf8df, type: 3}
   options:
   - text: Felicidad
     correct: 0
@@ -56,3 +56,5 @@ MonoBehaviour:
   - text: "Iron\xEDa"
     correct: 0
   hint: Vulnerabilidad evidente, tono suave
+  emotion: Sad
+  faceEmotionPrefab: {fileID: 5980835911983173015, guid: 485814adbc03eee43baa746b04c31a7e, type: 3}

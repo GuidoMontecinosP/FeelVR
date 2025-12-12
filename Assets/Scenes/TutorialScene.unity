@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faceController: {fileID: 0}
+  hardMode: 0
   m_maxQuestions: 10
   faceSpawnPoint: {fileID: 1844120859}
   m_quizPanel: {fileID: 0}

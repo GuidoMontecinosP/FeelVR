@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: "\xA1Qu\xE9 maravilloso es verte de nuevo!"
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 43d46312d76bb8a9694c47609ddccf92, type: 3}
   options:
   - text: Felicidad
     correct: 1
@@ -53,6 +53,8 @@ MonoBehaviour:
     correct: 0
   - text: Enojo
     correct: 0
-  - text: "Irion\xEDa"
+  - text: "Iron\xEDa"
     correct: 0
   hint: "Volumen alto y voz c\xE1lida, ritmo acelerado"
+  emotion: Happy
+  faceEmotionPrefab: {fileID: 5980835911983173015, guid: 485814adbc03eee43baa746b04c31a7e, type: 3}

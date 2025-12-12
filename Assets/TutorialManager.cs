@@ -124,6 +124,8 @@ public class TutorialManager : MonoBehaviour
             PlayStep();
         });
 
+        PlayQuestionAudio(q);
+
         var handler = FindObjectOfType<TutorialQuestionHandler>();
         handler.BindQuestion(q);
     }
@@ -221,6 +223,18 @@ public class TutorialManager : MonoBehaviour
         });
     }
 
+        private void PlayQuestionAudio(Question q)
+    {
+        if (q.audioClip == null) return;
+
+        var audio = GetComponent<AudioSource>();
+        if (audio == null) audio = gameObject.AddComponent<AudioSource>();
+
+        audio.volume = 1.0f;
+        audio.Stop();
+        audio.clip = q.audioClip;
+        audio.Play();
+    }
 
 
 }
